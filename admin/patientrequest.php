@@ -14,7 +14,7 @@ if(isset($_SESSION['is_adminlogin'])){
 <!-- start 2nd column -->
 <div class="col-sm-4 mb-5">
     <?php 
-        $sql= "SELECT r_id,r_illness,r_speciality,r_shift,r_name,r_gender,r_age,r_phone,r_date FROM submitrequest_db";
+        $sql= "SELECT r_id,r_illness,r_speciality,r_shift,r_name,r_gender,r_age,r_phone,r_date FROM submitrequest_db where r_status='0'";
         $result = $conn-> query($sql);
         if($result->num_rows > 0){
             while($row=$result->fetch_assoc()){
@@ -62,7 +62,8 @@ if(isset($_REQUEST['view'])){
     $row =$result->fetch_assoc();
 }
 if(isset($_REQUEST['close'])){
-    $sql= "DELETE FROM submitrequest_db WHERE r_id ={$_REQUEST['id']}";
+    $sql = "UPDATE submitrequest_db SET r_status= 2 WHERE r_id ={$_REQUEST['id']}";
+    // $sql= "DELETE FROM submitrequest_db WHERE r_id ={$_REQUEST['id']}";
     if($conn->query($sql)==TRUE){
         echo '<meta http-equiv="refresh" content="0;URL=?closed" />';
     }else{
@@ -95,7 +96,16 @@ if(isset($_REQUEST['assignDoct'])){
                 VALUES ($rid,'$rillness','$rspeciality','$rshift','$rname','$rgender',$rage,$rphone,'$raddress','$rassignDoct','$rdate')";
       
         if($conn->query($sql)==TRUE){
-            $msg ='<div class = "alert alert-warning col-sm-6 ml-5 mt-2 ">Work Assigned Successfully</div>';
+            $sql = "UPDATE submitrequest_db SET r_status= 1 WHERE r_id ={$_REQUEST['request_id']}";
+            // $sql= "DELETE FROM submitrequest_db WHERE r_id ={$_REQUEST['id']}";
+            if($conn->query($sql)==TRUE){
+                $msg ='<div class = "alert alert-warning col-sm-6 ml-5 mt-2 ">Work Assigned Successfully</div>';
+                echo '<meta http-equiv="refresh" content="0;URL=?closed" />';
+            }else{
+                echo "Something went wrong";
+            }
+
+            
         } else{
             $msg ='<div class = "alert alert-danger col-sm-6 ml-5 mt-2 ">Unable to Assign Work</div>';
         }

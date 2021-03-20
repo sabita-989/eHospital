@@ -2,10 +2,10 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 20, 2021 at 04:50 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.2
+-- Host: localhost
+-- Generation Time: Mar 20, 2021 at 03:13 PM
+-- Server version: 10.4.16-MariaDB
+-- PHP Version: 7.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -67,7 +67,10 @@ CREATE TABLE `awork_db` (
 --
 
 INSERT INTO `awork_db` (`rno`, `r_id`, `r_illness`, `r_speciality`, `r_shift`, `r_name`, `r_gender`, `r_age`, `r_phone`, `r_add`, `r_doc`, `r_date`) VALUES
-(10, 16, 'Swelling', 'Orthopaedic ', '10am-1pm', 'Sabita Guragain', 'female', 23, 9862295215, ' Biratnagar', 'Rabindra Mishra', '2021-03-19');
+(10, 16, 'Swelling', 'Orthopaedic ', '10am-1pm', 'Sabita Guragain', 'female', 23, 9862295215, ' Biratnagar', 'Rabindra Mishra', '2021-03-19'),
+(11, 19, 'Eligendi duis ab seq', 'yys ', '3pm-5pm', 'Deacon Mann', 'female', 10, 18, ' Nisi distinctio Lab', 'as', '2021-03-25'),
+(12, 19, 'Eligendi duis ab seq', 'yys ', '3pm-5pm', 'Deacon Mann', 'female', 10, 18, ' Nisi distinctio Lab', 'dwsa', '2021-04-01'),
+(13, 19, 'Eligendi duis ab seq', 'yys ', '3pm-5pm', 'Deacon Mann', 'female', 10, 18, ' Nisi distinctio Lab', 'dwsa', '2021-04-01');
 
 -- --------------------------------------------------------
 
@@ -109,6 +112,14 @@ CREATE TABLE `requesterlogin_db` (
   `r_password` varchar(70) COLLATE utf8mb4_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+--
+-- Dumping data for table `requesterlogin_db`
+--
+
+INSERT INTO `requesterlogin_db` (`r_login_id`, `r_name`, `r_email`, `r_password`) VALUES
+(44, 'Sylvester Porter', 'huwatal@mailinator.com', '$2y$10$U8/g.qICe/hUQh6qKIStcOKjZlr8fnvlHwhJP/uCNbh3q1cesquOy'),
+(45, 'Sydnee Boyd', 'nofazed@mailinator.com', '$2y$10$bPh2PCQaf1fvxR.QyjxK/efxkc9Ojc/gaCzsALz3f2C9TOGq0Tylm');
+
 -- --------------------------------------------------------
 
 --
@@ -147,6 +158,7 @@ CREATE TABLE `submitrequest_db` (
   `r_age` int(3) NOT NULL,
   `r_phone` varchar(255) COLLATE utf8mb4_bin NOT NULL,
   `r_add` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `r_status` int(11) NOT NULL DEFAULT 0 COMMENT '0=pending,1=close,2=accept',
   `r_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -154,8 +166,8 @@ CREATE TABLE `submitrequest_db` (
 -- Dumping data for table `submitrequest_db`
 --
 
-INSERT INTO `submitrequest_db` (`r_id`, `r_illness`, `r_speciality`, `r_shift`, `r_name`, `r_gender`, `r_age`, `r_phone`, `r_add`, `r_date`) VALUES
-(17, 'kala aazar', 'Physician ', '10am-1pm', 'sabita', 'Female', 8, '9875655455', ' Lamjung', '2021-03-25');
+INSERT INTO `submitrequest_db` (`r_id`, `r_illness`, `r_speciality`, `r_shift`, `r_name`, `r_gender`, `r_age`, `r_phone`, `r_add`, `r_status`, `r_date`) VALUES
+(19, 'Eligendi duis ab seq', 'yys ', '3pm-5pm', 'Deacon Mann', 'Female', 10, '18', ' Nisi distinctio Lab', 1, '1983-06-07');
 
 --
 -- Indexes for dumped tables
@@ -212,7 +224,7 @@ ALTER TABLE `adminlogin_db`
 -- AUTO_INCREMENT for table `awork_db`
 --
 ALTER TABLE `awork_db`
-  MODIFY `rno` int(60) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `rno` int(60) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `doctor_db`
@@ -224,7 +236,7 @@ ALTER TABLE `doctor_db`
 -- AUTO_INCREMENT for table `requesterlogin_db`
 --
 ALTER TABLE `requesterlogin_db`
-  MODIFY `r_login_id` int(60) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `r_login_id` int(60) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `speciality_db`
@@ -236,7 +248,7 @@ ALTER TABLE `speciality_db`
 -- AUTO_INCREMENT for table `submitrequest_db`
 --
 ALTER TABLE `submitrequest_db`
-  MODIFY `r_id` int(60) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `r_id` int(60) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
