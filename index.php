@@ -202,7 +202,7 @@ session_start();
                     <!-- end 1st column -->
                     <div class=" col-md-6 text-right">
                         <small>Designed by Symbosis &copy; 2021</small>
-                        <small class="ml-2"><a href="Admin/adminLogin.php">Admin Login</a></small>
+                        <small class="ml-2"><a href="Admin/index.php">Admin Login</a></small>
                     </div>
 
                     <!-- <div class=" col-md-2 text-right">

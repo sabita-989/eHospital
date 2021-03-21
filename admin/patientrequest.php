@@ -74,7 +74,7 @@ if(isset($_REQUEST['close'])){
 if(isset($_REQUEST['assignDoct'])){
     if(($_REQUEST['request_id']=="") || ($_REQUEST['illness']=="") || ($_REQUEST['speciality']=="")
             || ($_REQUEST['shift']=="") || ($_REQUEST['name']=="") || ($_REQUEST['gender']=="") || ($_REQUEST['age']=="")
-            || ($_REQUEST['phone']=="") || ($_REQUEST['address']=="") 
+            || ($_REQUEST['phone']=="") || ($_REQUEST['address']=="")
             || ($_REQUEST['assignDoct']=="") || ($_REQUEST['inputDate']=="")){
         $msg ='<div class = "alert alert-warning col-sm-6 ml-5 mt-2 ">Fill all Fields</div>';
     } else{
@@ -175,10 +175,27 @@ if(isset($_REQUEST['assignDoct'])){
             </div>    
         </div>
 
+
+        <?php
+        $sqlDoctor="SELECT * FROM `doctor_db`";
+        $query = $conn->query($sqlDoctor);
+        $data=array();
+        while($rows = $query-> fetch_assoc()){
+            array_push($data,$rows);
+        }
+        ?>
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="assignDoct">Assign to Doctor</label>
-                <input type="text" class="form-control" id="assignDoct" name="assignDoct">
+                <select name="assignDoct" id="assignDoct">
+                    <?php
+                    foreach ($data as $value){
+                    ?>
+                    <option value="<?php echo $value['d_name']; ?>"><?php echo $value['d_name']; ?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
             </div>
             
 

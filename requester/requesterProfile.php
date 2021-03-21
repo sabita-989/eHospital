@@ -50,7 +50,7 @@
             <div class="form-group">
                 <label for="rName">Name</label>
                 <input type="text" class="form-control" name="rName" id="rName" value="<?php 
-                echo $rName ?>">
+                echo $rName; ?>">
             </div>
                       
             <button type="submit" class="btn btn-danger" name="nameupdate">Update</button>

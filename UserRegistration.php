@@ -57,7 +57,7 @@ if(isset($_REQUEST['rSignUp'])){
                 <?php if(isset($regmsg)) {echo $regmsg;} ?>
                 <div class="form-group"> 
                     <i class="fas fa-user"></i>  
-                    <label for="name" class="font-weight-bold pl-2">Name</label>
+                    <label for="name" class="font-weight-bold pl-2">Full Name</label>
                     <input type="text" class= "form-control" placeholder="Enter you Name" name="rName" required>
                 </div>
 
