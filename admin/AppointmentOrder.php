@@ -13,7 +13,7 @@ if(isset($_SESSION['is_adminlogin'])){
 <!-- start 2nd column -->
 <div class="col-sm-9 col-md-10 mt-5">
     <?php 
-        $sql="SELECT * FROM awork_db";
+        $sql="SELECT * FROM submitrequest_db";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             echo '<table class="table">';
@@ -24,10 +24,6 @@ if(isset($_SESSION['is_adminlogin'])){
                         echo '<th scope="col">Gender</th>';
                         echo '<th scope="col">Age</th>';
                         echo '<th scope="col">Disease</th>';
-                        echo '<th scope="col">Doctor Name</th>';
-                        echo '<th scope="col">Doctor Depart</th>';
-                        echo '<th scope="col">Shift</th>';        
-                        echo '<th scope="col">Date</th>';
                         echo '<th scope="col">Action</th>';
                     echo '</tr>';
                 echo '</thead>';
@@ -39,10 +35,6 @@ if(isset($_SESSION['is_adminlogin'])){
                         echo '<td>'.$row['r_gender'].'</td>';
                         echo '<td>'.$row['r_age'].'</td>';
                         echo '<td>'.$row['r_illness'].'</td>';
-                        echo '<td>'.$row['r_doc'].'</td>';
-                        echo '<td>'.$row['r_speciality'].'</td>';
-                        echo '<td>'.$row['r_shift'].'</td>';                   
-                        echo '<td>'.$row['r_date'].'</td>';
                         echo '<td>';
                             echo '<form action="viewWork.php" method="POST" class="d-inline mr-2">';
                                 echo '<input type="hidden" name="id" value='.$row['r_id'].'><button class="btn btn-warning" name="view" value="View" type="submit"><i class="far fa-eye"></i></i></button>';
@@ -61,7 +53,7 @@ if(isset($_SESSION['is_adminlogin'])){
             echo '0 Result';
         }
         if(isset($_REQUEST['delete'])){
-            $sql = "DELETE FROM awork_db WHERE r_id={$_REQUEST['id']}";
+            $sql = "DELETE FROM submitrequest_db WHERE r_id={$_REQUEST['id']}";
             if($conn->query($sql)==TRUE){
                 echo '<meta http-equiv="refresh" content="0;URL=?deleted"/>';
             }else{

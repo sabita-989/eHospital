@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 20, 2021 at 03:13 PM
+-- Generation Time: Mar 21, 2021 at 04:18 PM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -40,37 +40,6 @@ CREATE TABLE `adminlogin_db` (
 
 INSERT INTO `adminlogin_db` (`a_login_id`, `a_name`, `a_email`, `a_password`) VALUES
 (1, 'Admin', 'admin@admin.com', 'admin');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `awork_db`
---
-
-CREATE TABLE `awork_db` (
-  `rno` int(60) NOT NULL,
-  `r_id` int(60) NOT NULL,
-  `r_illness` text COLLATE utf8mb4_bin NOT NULL,
-  `r_speciality` text COLLATE utf8mb4_bin NOT NULL,
-  `r_shift` varchar(10) COLLATE utf8mb4_bin NOT NULL,
-  `r_name` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `r_gender` varchar(10) COLLATE utf8mb4_bin NOT NULL,
-  `r_age` int(3) NOT NULL,
-  `r_phone` bigint(11) NOT NULL,
-  `r_add` text COLLATE utf8mb4_bin NOT NULL,
-  `r_doc` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `r_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
---
--- Dumping data for table `awork_db`
---
-
-INSERT INTO `awork_db` (`rno`, `r_id`, `r_illness`, `r_speciality`, `r_shift`, `r_name`, `r_gender`, `r_age`, `r_phone`, `r_add`, `r_doc`, `r_date`) VALUES
-(10, 16, 'Swelling', 'Orthopaedic ', '10am-1pm', 'Sabita Guragain', 'female', 23, 9862295215, ' Biratnagar', 'Rabindra Mishra', '2021-03-19'),
-(11, 19, 'Eligendi duis ab seq', 'yys ', '3pm-5pm', 'Deacon Mann', 'female', 10, 18, ' Nisi distinctio Lab', 'as', '2021-03-25'),
-(12, 19, 'Eligendi duis ab seq', 'yys ', '3pm-5pm', 'Deacon Mann', 'female', 10, 18, ' Nisi distinctio Lab', 'dwsa', '2021-04-01'),
-(13, 19, 'Eligendi duis ab seq', 'yys ', '3pm-5pm', 'Deacon Mann', 'female', 10, 18, ' Nisi distinctio Lab', 'dwsa', '2021-04-01');
 
 -- --------------------------------------------------------
 
@@ -151,23 +120,25 @@ INSERT INTO `speciality_db` (`speciality_id`, `speciality_name`) VALUES
 CREATE TABLE `submitrequest_db` (
   `r_id` int(60) NOT NULL,
   `r_illness` text COLLATE utf8mb4_bin NOT NULL,
-  `r_speciality` text COLLATE utf8mb4_bin NOT NULL,
+  `r_speciality` int(11) NOT NULL,
   `r_shift` varchar(10) COLLATE utf8mb4_bin NOT NULL,
   `r_name` varchar(255) COLLATE utf8mb4_bin NOT NULL,
   `r_gender` varchar(10) COLLATE utf8mb4_bin NOT NULL,
   `r_age` int(3) NOT NULL,
   `r_phone` varchar(255) COLLATE utf8mb4_bin NOT NULL,
   `r_add` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `r_status` int(11) NOT NULL DEFAULT 0 COMMENT '0=pending,1=close,2=accept',
-  `r_date` date NOT NULL
+  `r_status` int(11) NOT NULL DEFAULT 0 COMMENT '0=pending,1=accept,2=close,3=checked',
+  `r_date` date NOT NULL,
+  `r_doctor` int(11) DEFAULT NULL,
+  `r_report` text COLLATE utf8mb4_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `submitrequest_db`
 --
 
-INSERT INTO `submitrequest_db` (`r_id`, `r_illness`, `r_speciality`, `r_shift`, `r_name`, `r_gender`, `r_age`, `r_phone`, `r_add`, `r_status`, `r_date`) VALUES
-(19, 'Eligendi duis ab seq', 'yys ', '3pm-5pm', 'Deacon Mann', 'Female', 10, '18', ' Nisi distinctio Lab', 1, '1983-06-07');
+INSERT INTO `submitrequest_db` (`r_id`, `r_illness`, `r_speciality`, `r_shift`, `r_name`, `r_gender`, `r_age`, `r_phone`, `r_add`, `r_status`, `r_date`, `r_doctor`, `r_report`) VALUES
+(19, 'Eligendi duis ab seq', 1, '3pm-5pm', 'Deacon Mann', 'Female', 10, '18', ' Nisi distinctio Lab', 1, '2021-03-22', 48, NULL);
 
 --
 -- Indexes for dumped tables
@@ -178,12 +149,6 @@ INSERT INTO `submitrequest_db` (`r_id`, `r_illness`, `r_speciality`, `r_shift`, 
 --
 ALTER TABLE `adminlogin_db`
   ADD PRIMARY KEY (`a_login_id`);
-
---
--- Indexes for table `awork_db`
---
-ALTER TABLE `awork_db`
-  ADD PRIMARY KEY (`rno`);
 
 --
 -- Indexes for table `doctor_db`
@@ -219,12 +184,6 @@ ALTER TABLE `submitrequest_db`
 --
 ALTER TABLE `adminlogin_db`
   MODIFY `a_login_id` int(60) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `awork_db`
---
-ALTER TABLE `awork_db`
-  MODIFY `rno` int(60) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `doctor_db`

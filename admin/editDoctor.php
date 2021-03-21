@@ -69,7 +69,7 @@ if(isset($_SESSION['is_adminlogin'])){
         <div class="form-group"> 
             <i class="fas fa-user"></i>  
             <label for="d_speciality" class="font-weight-bold pl-2">Speciality</label>
-            <select name="d_speciality" id="d_speciality">
+            <select name="d_speciality" class="form-control" id="d_speciality">
                 <?php foreach($data as $value){ ?>
                 <option><?php echo $value['speciality_name'] ?></option>
                 <?php } ?>

@@ -15,7 +15,7 @@ if(isset($_SESSION['is_adminlogin'])){
 <h3 class="text-center">Appointment Details</h3>
 <?php
  if(isset($_REQUEST['view'])){
-    $sql="SELECT * FROM awork_db WHERE r_id={$_REQUEST['id']}";
+    $sql="SELECT submitrequest_db.*,doctor_db.d_name as doctor_name,speciality_db.speciality_name as speciality_name FROM submitrequest_db join doctor_db on submitrequest_db.r_doctor = doctor_db.doctor_id join speciality_db on submitrequest_db.r_speciality = speciality_db.speciality_id WHERE r_id={$_REQUEST['id']}";
     $result = $conn-> query($sql);
     $row = $result->fetch_assoc(); ?>
 
@@ -32,10 +32,6 @@ if(isset($_SESSION['is_adminlogin'])){
                     echo $row['r_illness'];} ?></td>                
             </tr>
             <tr>
-                <td>Doctor Speciality</td>
-                <td><?php if(isset($row['r_speciality'])){
-                    echo $row['r_speciality'];} ?></td>                
-            </tr><tr>
                 <td>Disease</td>
                 <td><?php if(isset($row['r_shift'])){
                     echo $row['r_shift'];} ?></td>                
@@ -69,16 +65,42 @@ if(isset($_SESSION['is_adminlogin'])){
                     echo $row['r_add'];} ?></td>                
             </tr>
             <tr>
+                <td>Doctor Speciality</td>
+                <td><?php if(isset($row['speciality_name'])){
+                    echo $row['speciality_name'];} ?></td>                
+            </tr>
+            <tr>
                 <td>Assigned doctor</td>
-                <td><?php if(isset($row['r_doc'])){
-                    echo $row['r_doc'];} ?></td>                
+                <td><?php if(isset($row['doctor_name'])){
+                    echo $row['doctor_name'];} ?></td>                
+            </tr>
+            <tr>
+                <td> doctor Date</td>
+                <td><?php if(isset($row['r_date'])){
+                    echo date('dS M, Y',strtotime($row['r_date']));} ?></td>                
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>
+                    <?php 
+                        if(isset($row['r_status']) && $row['r_status'] == 0 ){
+                            echo 'unverified';
+                        }elseif(isset($row['r_status']) && $row['r_status'] == 1 ){
+                            echo 'approved';
+                        }elseif(isset($row['r_status']) && $row['r_status'] == 2 ){
+                            echo 'closed';
+                        }elseif(isset($row['r_status']) && $row['r_status'] == 3 ){
+                            echo 'Checked';
+                        }
+                     ?>
+                        
+                    </td>                
             </tr>
         </tbody>
     </table>
     <div class="text-right">
-        <form action="AppointmentOrder.php">
-            <input class="btn btn-primary" type="submit" value="Close">
-        </form>
+        <a href="/eHospital/admin" class="btn btn-primary">Close</a>
+        
     </div>
  <?php } ?>
 </div>

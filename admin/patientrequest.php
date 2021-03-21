@@ -14,7 +14,7 @@ if(isset($_SESSION['is_adminlogin'])){
 <!-- start 2nd column -->
 <div class="col-sm-4 mb-5">
     <?php 
-        $sql= "SELECT r_id,r_illness,r_speciality,r_shift,r_name,r_gender,r_age,r_phone,r_date FROM submitrequest_db where r_status='0'";
+        $sql= "SELECT submitrequest_db.*, speciality_db.speciality_name as speciality_name FROM submitrequest_db JOIN speciality_db ON submitrequest_db.r_speciality = speciality_db.speciality_id WHERE r_status = '0'";
         $result = $conn-> query($sql);
         if($result->num_rows > 0){
             while($row=$result->fetch_assoc()){
@@ -33,7 +33,7 @@ if(isset($_SESSION['is_adminlogin'])){
                     echo '<p class="card-text">Gender: '.$row['r_gender'];
                     echo '</p>';
 
-                    echo '<p class="card-title">Doctor Depart: '.$row['r_speciality'];
+                    echo '<p class="card-title">Doctor Depart: '.$row['speciality_name'];
                     echo '</p>';
 
                     echo '<p class="card-title">Date: '.$row['r_date'];
@@ -57,7 +57,7 @@ if(isset($_SESSION['is_adminlogin'])){
 
 <?php 
 if(isset($_REQUEST['view'])){
-    $sql="SELECT * FROM submitrequest_db WHERE r_id = {$_REQUEST['id']}"; 
+    $sql="SELECT submitrequest_db.*, speciality_db.speciality_name as speciality_name FROM submitrequest_db JOIN speciality_db ON submitrequest_db.r_speciality = speciality_db.speciality_id WHERE r_id = {$_REQUEST['id']}"; 
     $result=$conn->query($sql);
     $row =$result->fetch_assoc();
 }
@@ -91,21 +91,17 @@ if(isset($_REQUEST['assignDoct'])){
         $rdate= $_REQUEST['inputDate'];
        
     
-    
-        $sql ="INSERT INTO awork_db(r_id,r_illness,r_speciality, r_shift, r_name,r_gender,r_age,r_phone,r_add,r_doc,r_date)
-                VALUES ($rid,'$rillness','$rspeciality','$rshift','$rname','$rgender',$rage,$rphone,'$raddress','$rassignDoct','$rdate')";
+        $sql ="UPDATE `submitrequest_db` SET `r_status`=1,`r_date`='$rdate',`r_doctor`='$rassignDoct' WHERE r_id ={$_REQUEST['request_id']}";
+        echo $sql;
+
+        // $sql ="INSERT INTO awork_db(r_id,r_illness,r_speciality, r_shift, r_name,r_gender,r_age,r_phone,r_add,r_doc,r_date)
+      // VALUES ($rid,'$rillness','$rspeciality','$rshift','$rname','$rgender',$rage,$rphone,'$raddress','$rassignDoct','$rdate')";
       
         if($conn->query($sql)==TRUE){
-            $sql = "UPDATE submitrequest_db SET r_status= 1 WHERE r_id ={$_REQUEST['request_id']}";
-            // $sql= "DELETE FROM submitrequest_db WHERE r_id ={$_REQUEST['id']}";
-            if($conn->query($sql)==TRUE){
-                $msg ='<div class = "alert alert-warning col-sm-6 ml-5 mt-2 ">Work Assigned Successfully</div>';
+            $msg ='<div class = "alert alert-warning col-sm-6 ml-5 mt-2 ">Work Assigned Successfully</div>';
                 echo '<meta http-equiv="refresh" content="0;URL=?closed" />';
-            }else{
-                echo "Something went wrong";
-            }
-
-            
+            // $sql = "UPDATE submitrequest_db SET r_status= 1 WHERE r_id ={$_REQUEST['request_id']}";
+            // $sql= "DELETE FROM submitrequest_db WHERE r_id ={$_REQUEST['id']}";
         } else{
             $msg ='<div class = "alert alert-danger col-sm-6 ml-5 mt-2 ">Unable to Assign Work</div>';
         }
@@ -128,12 +124,13 @@ if(isset($_REQUEST['assignDoct'])){
 
         <div class="form-group">
             <label for="Illness">Disease</label>
-            <input type="text" class="form-control" id="Illness"  name="illness" value="<?php if(isset($row['r_illness'])) echo $row['r_illness']; ?>">
+            <input type="text" class="form-control" id="Illness"  name="illness" value="<?php if(isset($row['r_illness'])) echo $row['r_illness']; ?>" readonly="readonly">
         </div>
 
         <div class="form-group">
             <label for="Speciality">Doctor Speciality</label>
-            <input type="text" class="form-control" id="Speciality"  name="speciality" value="<?php if(isset($row['r_speciality'])) echo $row['r_speciality']; ?>">
+            <input type="hidden" class="form-control" id="Speciality"  name="speciality" value="<?php if(isset($row['r_speciality'])) echo $row['r_speciality']; ?>">
+            <input type="text" class="form-control" value="<?php if(isset($row['speciality_name'])) echo $row['speciality_name']; ?>" readonly="readonly">
         </div>
 
         <div class="group">
@@ -144,7 +141,7 @@ if(isset($_REQUEST['assignDoct'])){
         
         <div class="form-group">
             <label for="Name">Patient's Name</label>
-            <input type="text" class="form-control" id="Name" name="name" value="<?php if(isset($row['r_name'])) echo $row['r_name']; ?>">
+            <input type="text" class="form-control" id="Name" name="name" value="<?php if(isset($row['r_name'])) echo $row['r_name']; ?>" readonly="readonly">
         </div>
 
         <div class="group">
@@ -157,12 +154,12 @@ if(isset($_REQUEST['assignDoct'])){
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="Age">Patient's Age</label>
-                <input type="number" class="form-control" id="Age" name="age" value="<?php if(isset($row['r_age'])) echo $row['r_age']; ?>">
+                <input type="number" class="form-control" id="Age" name="age" value="<?php if(isset($row['r_age'])) echo $row['r_age']; ?>" readonly="readonly">
             </div> 
 
             <div class="form-group col-md-6">
                 <label for="Phone">Phone</label>
-                <input type="number" class="form-control" id="Phone" name="phone"  onkeypress="isInputNumber(event)" value="<?php if(isset($row['r_phone'])) echo $row['r_phone']; ?>">
+                <input type="number" class="form-control" id="Phone" name="phone"  onkeypress="isInputNumber(event)" value="<?php if(isset($row['r_phone'])) echo $row['r_phone']; ?>" readonly="readonly">
             </div>
 
           
@@ -171,27 +168,33 @@ if(isset($_REQUEST['assignDoct'])){
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="Address">Permanent Address</label>
-                <input type="text" class="form-control" id="Address" placeholder="Write Permanent Address" name="address" value="<?php if(isset($row['r_add'])) echo $row['r_add']; ?>">
+                <input type="text" class="form-control" id="Address" placeholder="Write Permanent Address" name="address" value="<?php if(isset($row['r_add'])) echo $row['r_add']; ?>" readonly="readonly">
             </div>    
         </div>
 
 
         <?php
-        $sqlDoctor="SELECT * FROM `doctor_db`";
-        $query = $conn->query($sqlDoctor);
-        $data=array();
-        while($rows = $query-> fetch_assoc()){
-            array_push($data,$rows);
+        if (isset($row['r_speciality'])) {
+           $sqlDoctor="SELECT * FROM `doctor_db` where speciality_id = ".$row['r_speciality'];
+            $query = $conn->query($sqlDoctor);
+            $data=array();
+            while($rows = $query-> fetch_assoc()){
+                array_push($data,$rows);
+            }
+        }else{
+            $data=[];
         }
+        
         ?>
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="assignDoct">Assign to Doctor</label>
-                <select name="assignDoct" id="assignDoct">
+                <select name="assignDoct"  class="form-control" id="assignDoct" required="true">
+                    <option>Select Doctor</option>
                     <?php
                     foreach ($data as $value){
                     ?>
-                    <option value="<?php echo $value['d_name']; ?>"><?php echo $value['d_name']; ?></option>
+                    <option value="<?php echo $value['doctor_id']; ?>"><?php echo $value['d_name']; ?></option>
                     <?php
                     }
                     ?>
