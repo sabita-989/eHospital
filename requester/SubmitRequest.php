@@ -67,7 +67,7 @@
 		<label for="speciality">Doctor Speciality</label>
 		<select name="speciality" id="speciality">
                 <?php foreach($data as $value){ ?>
-                <option><?php echo $value['speciality_name'] ?></option>
+                <option value="<?php echo $value['speciality_id'] ?>"><?php echo $value['speciality_name'] ?></option>
                 <?php } ?>
             </select>
 		</div>    
